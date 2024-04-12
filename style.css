@@ -1,0 +1,13 @@
+.heroHp{
+    background-color: tomato;
+    width: 100%;
+}
+
+.enemyHp {
+    background-color: tomato;
+    width: 100%;
+}
+
+.heroHpDiv {
+    justify-content: left !important;
+}
