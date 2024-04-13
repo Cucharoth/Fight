@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#heroHp{
+    background-color: green;
+    width: 100%;
+    transition: width 0.5s;
+    border-radius: 10px;
+}
+
+#enemyHp {
+    background-color: tomato;
+    width: 100%;
+    transition: width 0.5s;
+    border-radius: 10px;
+}
+
+#img-hero{
+    width: 40rem;
+    height: 30rem;
+    border-radius: 20px;
+}
+
+#img-enemy{
+    width: 40rem;
+    height: 30rem;
+    border-radius: 20px;
+}

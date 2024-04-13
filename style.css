@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .heroHp{
     background-color: tomato;
     width: 100%;
