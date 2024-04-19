@@ -703,8 +703,8 @@ video {
   width: 10rem;
   height: 10rem;
   border-radius: 20px;
-  left: 50%;
-  right: 0;
+  left: 50px;
+  top: 50px;
 }
 
 #img-enemy{
@@ -713,8 +713,22 @@ video {
   border-radius: 20px;
 }
 
+#coliseum{
+  background-color: red;
+  height: 100ch;
+  width: 100ch;
+}
+
+.power-up{
+  position: absolute;
+  background-color: yellow;
+  height: 2ch;
+  width: 2ch;
+}
+
 .battleground {
   display: block;
   background-color: blueviolet;
-  height: 100rem;
+  height: 400px;
+  width: 1200px;
 }

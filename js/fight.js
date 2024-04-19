@@ -33,19 +33,36 @@ function combat() {
     document.addEventListener("keypress", keyPressHandler);
 }
 
+let x = 0;
+let y = 0;
+
 function keyPressHandler(e) {
+    const imageHero = document.getElementById("img-hero");
     if (e.key == "w") {
         console.log(e.key);
+        y -= 100;
+        imageHero.style.transform += `transtale(${x}px, ${y}px)`;
+        y = 0;
     } else if (e.key == "a") {
         console.log(e.key);
+        x += 100;
+        imageHero.style.transform += `translate(${x}px, ${0}px)`;
+        x = 0;
     } else if (e.key == "s") {
         console.log(e.key);
+        y +=100;
+        imageHero.style.transform += `translate(${x}px, ${y}px)`;
+        y =0;
     } else if (e.key == "d") {
-        console.log(e.key);
+        x -= 100;
+        imageHero.style.transform += `transtale(${x}px, ${y}px)`;
+        x = 0;    
     }
+    
     updateScreen();
     statusCheck();
 }
+
 
 function statusCheck() {
     if (!enemy.isAlive()) {
