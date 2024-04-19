@@ -27,23 +27,21 @@ class Character {
 }
 
 function combat() {
-    alert(`COMIENZA EL COMBATE! \n
-    ${hero.status()}, Attack: ${hero.damage}\n
-    ${enemy.status()}, Attack: ${enemy.damage}`);
+    // alert(`COMIENZA EL COMBATE! \n
+    // ${hero.status()}, Attack: ${hero.damage}\n
+    // ${enemy.status()}, Attack: ${enemy.damage}`);
     document.addEventListener("keypress", keyPressHandler);
 }
 
 function keyPressHandler(e) {
-    if (e.key == "x") {
-        hero.attack(enemy);
-        setEnemyCurrentHp((enemy.health / enemy.maxhealth) * 100);
-        console.log(hero.status());
-        console.log(enemy.status());
-    } else if (e.key == "n") {
-        enemy.attack(hero);
-        setHeroCurrentHp((hero.health / hero.maxhealth) * 100);
-        console.log(hero.status());
-        console.log(enemy.status());
+    if (e.key == "w") {
+        console.log(e.key);
+    } else if (e.key == "a") {
+        console.log(e.key);
+    } else if (e.key == "s") {
+        console.log(e.key);
+    } else if (e.key == "d") {
+        console.log(e.key);
     }
     updateScreen();
     statusCheck();
