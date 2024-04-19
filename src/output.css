@@ -714,3 +714,16 @@ video {
   height: 30rem;
   border-radius: 20px;
 }
+
+#coliseum{
+  background-color: red;
+  height: 100ch;
+  width: 100ch;
+}
+
+.power-up{
+  position: absolute;
+  background-color: yellow;
+  height: 2ch;
+  width: 2ch;
+}
