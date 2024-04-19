@@ -6,7 +6,7 @@
     background-color: green;
     width: 100%;
     transition: width 0.5s;
-    border-radius: 10px;
+    border-radius: 0px;
 }
 
 #enemyHp {
@@ -17,13 +17,22 @@
 }
 
 #img-hero{
-    width: 40rem;
-    height: 30rem;
+    position: relative;
+        width: 10rem;
+        height: 10rem;
     border-radius: 20px;
+    left: 50%;
+        right: 0;
 }
 
 #img-enemy{
     width: 40rem;
     height: 30rem;
     border-radius: 20px;
+}
+
+.battleground {
+    display: block;
+    background-color: blueviolet;
+    height: 100rem;
 }
