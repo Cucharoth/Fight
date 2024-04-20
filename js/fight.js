@@ -2,12 +2,23 @@
 
 //Objeto base para los personajes
 class Character {
-    constructor(name, health, damage) {
+    constructor(name, health, damage, sprite) {
         //Atributos
         this.name = name;
         this.health = health;
         this.maxhealth = health;
         this.damage = damage;
+        this.sprite = sprite;
+        this.x =
+            window
+                .getComputedStyle(imageHero, null)
+                .getPropertyValue("left")
+                .substring(0, 2) - 0;
+        this.y =
+            window
+                .getComputedStyle(imageHero, null)
+                .getPropertyValue("top")
+                .substring(0, 2) - 0;
     }
     //Verifica si el personaje esta vivo
     isAlive() {
@@ -33,36 +44,55 @@ function combat() {
     document.addEventListener("keypress", keyPressHandler);
 }
 
-let x = 0;
-let y = 0;
-
 function keyPressHandler(e) {
-    const imageHero = document.getElementById("img-hero");
-    if (e.key == "w") {
-        console.log(e.key);
-        y -= 100;
-        imageHero.style.transform += `transtale(${x}px, ${y}px)`;
-        y = 0;
-    } else if (e.key == "a") {
-        console.log(e.key);
-        x += 100;
-        imageHero.style.transform += `translate(${x}px, ${0}px)`;
-        x = 0;
-    } else if (e.key == "s") {
-        console.log(e.key);
-        y +=100;
-        imageHero.style.transform += `translate(${x}px, ${y}px)`;
-        y =0;
-    } else if (e.key == "d") {
-        x -= 100;
-        imageHero.style.transform += `transtale(${x}px, ${y}px)`;
-        x = 0;    
-    }
-    
+    heroMovement(e);
+    //TODO enemyMovement(e);
+
+    checkCollision();
     updateScreen();
     statusCheck();
 }
 
+function checkCollision() {
+    console.log(hero.x + hero.y);
+}
+
+function heroMovement(e) {
+    switch (e.key) {
+        case "w":
+            if (hero.y > 0) {
+                hero.y -= 10;
+                hero.sprite.style.top = `${hero.y}px`;
+            }
+            return;
+        case "a":
+            if (hero.x > 0) {
+                hero.x -= 10;
+                hero.sprite.style.left = `${hero.x}px`;
+            }
+            return;
+        case "s":
+            if (
+                hero.y <
+                windowDimensions.height -
+                    hero.sprite.getBoundingClientRect().height
+            ) {
+                hero.y += 10;
+                hero.sprite.style.top = `${hero.y}px`;
+            }
+            return;
+        case "d":
+            if (
+                hero.x <
+                windowDimensions.width -
+                    hero.sprite.getBoundingClientRect().width
+            ) {
+                hero.x += 10;
+                hero.sprite.style.left = `${hero.x}px`;
+            }
+            return;
+    }
+}
 
 function statusCheck() {
     if (!enemy.isAlive()) {
@@ -101,8 +131,14 @@ const heroHp = Math.floor(Math.random() * 101 + 10);
 const heroDmg = Math.floor(Math.random() * 6 + 1);
 const enemyHp = Math.floor(Math.random() * 101 + 10);
 const enemyDmg = Math.floor(Math.random() * 6 + 1);
-const hero = new Character("Heroe", heroHp, heroDmg);
-const enemy = new Character("Limo", enemyHp, enemyDmg);
+const imageHero = document.getElementById("img-hero");
+const imageEnemy = document.getElementById("img-enemy");
+const hero = new Character("Heroe", heroHp, heroDmg, imageHero);
+const enemy = new Character("Limo", enemyHp, enemyDmg, imageEnemy);
+const windowDimensions = document
+    .getElementById("battleground")
+    .getBoundingClientRect();
+
 
 //Comenzar combate
 updateScreen();
