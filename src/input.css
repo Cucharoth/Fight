@@ -18,20 +18,20 @@
 
 #img-hero{
     position: relative;
-    width: 10rem;
-    height: 10rem;
+    width: 160px;
+    height: 160px;
     border-radius: 20px;
-    left: 50px;
-    top: 50px;
+    left: 340px;
+    top: 30%;
 }
 
 #img-enemy{
     position: relative;
-    width: 10rem;
-    height: 10rem;
+    width: 160px;
+    height: 160px;
     border-radius: 20px;
-    left: 600px;
-    top: 0px;
+    left: 540px;
+    top: 30%;
 }
 #coliseum{
     background-color: red;
@@ -46,7 +46,8 @@
 }
 
 #battleground {
-    display: block;
+    display: flex;
+    flex-direction: row;
     background-color: blueviolet;
     height: 400px;
     width: 1200px;

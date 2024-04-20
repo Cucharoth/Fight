@@ -2,23 +2,15 @@
 
 //Objeto base para los personajes
 class Character {
-    constructor(name, health, damage, sprite) {
+    constructor(name, health, damage, sprite, x, y) {
         //Atributos
         this.name = name;
         this.health = health;
         this.maxhealth = health;
         this.damage = damage;
         this.sprite = sprite;
-        this.x =
-            window
-                .getComputedStyle(imageHero, null)
-                .getPropertyValue("left")
-                .substring(0, 2) - 0;
-        this.y =
-            window
-                .getComputedStyle(imageHero, null)
-                .getPropertyValue("top")
-                .substring(0, 2) - 0;
+        this.x = x;
+        this.y = y;
     }
     //Verifica si el personaje esta vivo
     isAlive() {
@@ -48,13 +40,35 @@ function keyPressHandler(e) {
     heroMovement(e);
     //TODO enemyMovement(e);
 
-    checkCollision();
+    if (characterCollision()) {
+        //TODO: PONER LA MAGIA AQUÍ
+        console.log("COLLISION!!!1");
+    }
     updateScreen();
     statusCheck();
 }
 
-function checkCollision() {
-    console.log(hero.x + hero.y);
+// si la distancia entre ambos centros es menor a la suma de sus radios, colisionan.
+function characterCollision() {
+    let heroXPosCentered = hero.x + hero.sprite.width / 2;
+    let heroYPosCentered = (windowDimensions.height - hero.y) / 2;
+    let enemyXPosCentered =
+        enemy.x + enemy.sprite.width + enemy.sprite.width / 2;
+    let enemyYPosCentered = (windowDimensions.height - enemy.y) / 2;
+    console.log(
+        Math.sqrt(
+            Math.pow(enemyXPosCentered - heroXPosCentered, 2) +
+                Math.pow(enemyYPosCentered - heroYPosCentered, 2)
+        )
+    );
+    if (
+        Math.sqrt(
+            Math.pow(enemyXPosCentered - heroXPosCentered, 2) +
+                Math.pow(enemyYPosCentered - heroYPosCentered, 2)
+        ) <=
+        hero.sprite.width / 2 + enemy.sprite.width / 2
+    )
+        return true;
 }
 
 function heroMovement(e) {
@@ -133,8 +147,42 @@ const enemyHp = Math.floor(Math.random() * 101 + 10);
 const enemyDmg = Math.floor(Math.random() * 6 + 1);
 const imageHero = document.getElementById("img-hero");
 const imageEnemy = document.getElementById("img-enemy");
-const hero = new Character("Heroe", heroHp, heroDmg, imageHero);
-const enemy = new Character("Limo", enemyHp, enemyDmg, imageEnemy);
+const heroXPos =
+    window
+        .getComputedStyle(imageHero, null)
+        .getPropertyValue("left")
+        .substring(0, 3) - 0;
+const heroYPos =
+    window
+        .getComputedStyle(imageHero, null)
+        .getPropertyValue("top")
+        .substring(0, 3) - 0;
+const enemyXPos =
+    window
+        .getComputedStyle(imageEnemy, null)
+        .getPropertyValue("left")
+        .substring(0, 3) - 0;
+const enemyYPos =
+    window
+        .getComputedStyle(imageEnemy, null)
+        .getPropertyValue("top")
+        .substring(0, 3) - 0;
+const hero = new Character(
+    "Heroe",
+    heroHp,
+    heroDmg,
+    imageHero,
+    heroXPos,
+    heroYPos
+);
+const enemy = new Character(
+    "Limo",
+    enemyHp,
+    enemyDmg,
+    imageEnemy,
+    enemyXPos,
+    enemyYPos
+);
 const windowDimensions = document
     .getElementById("battleground")
     .getBoundingClientRect();
