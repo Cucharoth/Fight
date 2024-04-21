@@ -611,6 +611,11 @@ video {
   margin-bottom: 1.25rem;
 }
 
+.mx-3 {
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+}
+
 .mt-28 {
   margin-top: 7rem;
 }
@@ -635,6 +640,10 @@ video {
   width: 100%;
 }
 
+.flex-1 {
+  flex: 1 1 0%;
+}
+
 .grow {
   flex-grow: 1;
 }
@@ -653,6 +662,10 @@ video {
 
 .justify-start {
   justify-content: flex-start;
+}
+
+.justify-end {
+  justify-content: flex-end;
 }
 
 .justify-center {
@@ -674,6 +687,15 @@ video {
   padding-right: 2.25rem;
 }
 
+.px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
 .text-5xl {
   font-size: 3rem;
   line-height: 1;
@@ -688,7 +710,7 @@ video {
   background-color: green;
   width: 100%;
   transition: width 0.5s;
-  border-radius: 0px;
+  border-radius: 10px;
 }
 
 #enemyHp {
@@ -700,18 +722,18 @@ video {
 
 #img-hero{
   position: relative;
-  width: 160px;
-  height: 160px;
-  border-radius: 20px;
+  width: 80px;
+  height: 80px;
+  border-radius: 80px;
   left: 340px;
   top: 30%;
 }
 
 #img-enemy{
   position: relative;
-  width: 160px;
-  height: 160px;
-  border-radius: 20px;
+  width: 80px;
+  height: 80px;
+  border-radius: 80px;
   left: 540px;
   top: 30%;
 }
@@ -735,4 +757,5 @@ video {
   background-color: blueviolet;
   height: 400px;
   width: 1200px;
+  border-radius: 20px;
 }

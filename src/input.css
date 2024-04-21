@@ -6,7 +6,7 @@
     background-color: green;
     width: 100%;
     transition: width 0.5s;
-    border-radius: 0px;
+    border-radius: 10px;
 }
 
 #enemyHp {
@@ -18,18 +18,18 @@
 
 #img-hero{
     position: relative;
-    width: 160px;
-    height: 160px;
-    border-radius: 20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 80px;
     left: 340px;
     top: 30%;
 }
 
 #img-enemy{
     position: relative;
-    width: 160px;
-    height: 160px;
-    border-radius: 20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 80px;
     left: 540px;
     top: 30%;
 }
@@ -51,4 +51,5 @@
     background-color: blueviolet;
     height: 400px;
     width: 1200px;
+    border-radius: 20px;
 }
