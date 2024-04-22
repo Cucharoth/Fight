@@ -1,5 +1,10 @@
 //Ejercicio de practica Javascript
 
+//Constantes:
+const SAFE_COLOR = "#00af1d";
+const DMG_COLOR = "#b80000";
+const DANGER_COLOR = "#dab901";
+
 //Objeto base para los personajes
 class Character {
     constructor(name, health, damage, sprite, x, y, speed) {
@@ -12,6 +17,9 @@ class Character {
         this.x = x;
         this.y = y;
         this.speed = speed;
+        this.posXCentered = 0;
+        this.posYCentered = 0;
+        this.justGotHit = false;
     }
     //Verifica si el personaje esta vivo
     isAlive() {
@@ -22,14 +30,44 @@ class Character {
     attack(target) {
         console.log(`${this.name} deals ${this.damage} DMG to ${target.name}`);
         target.health -= this.damage;
+        this.showSwing(target);
+        target.receiveDmg();
+        if (target.health < 0) {
+            target.health = 0;
+        }
     }
 
-    //Retorna la información actual del personaje
-    status() {
-        return `${this.name} - HP ${this.health}/${this.maxhealth}`;
+    receiveDmg() {
+        this.sprite.style.borderColor = DMG_COLOR;
+        this.justGotHit = true;
+        setTimeout(() => {
+            if (atMeleeRange) {
+                this.sprite.style.borderColor = DANGER_COLOR;
+                this.justGotHit = false;
+            } else this.sprite.style.borderColor = SAFE_COLOR;;
+        }, 300);
+    }
+
+    showSwing(target) {
+        swing.style.display = "block";
+        swing.style.left =
+            target.posXCentered -
+            this.sprite.width -
+            target.sprite.width -
+            target.sprite.width / 2 +
+            "px";
+        swing.style.top =
+            windowDimensions.height -
+            enemy.posYCentered -
+            this.sprite.height / 3 +
+            "px";
+        setTimeout(() => {
+            swing.style.display = "none";
+        }, 300);
     }
 }
 
+//main game loop
 function combat() {
     // alert(`COMIENZA EL COMBATE! \n
     // ${hero.status()}, Attack: ${hero.damage}\n
@@ -39,11 +77,9 @@ function combat() {
         //TODO: PONER LA MAGIA AQUÍ
         //console.log("COLLISION!!!1");
 
-        if (!collision) {
-            cap = 60;
-        }
-        collision = true;
+        
     }
+    distanceCheck();
     heroMovement(keyPressed);
     enemyMovement(keyPressed);
     updateScreen();
@@ -63,26 +99,29 @@ function keyPressHandler(e) {
         keyPressed.delete(e.code);
     }
     console.log(keyPressed); //todo remove
+}
 
-    updateScreen();
+// calcula la distancia entre distintos objetos
+function distanceCheck() {
+    distanceBetweenCharacters();
+}
+
+function distanceBetweenCharacters() {
+    charactersDistance = Math.sqrt(
+        Math.pow(enemy.posXCentered - hero.posXCentered, 2) +
+            Math.pow(enemy.posYCentered - hero.posYCentered, 2));
+    if (charactersDistance < hero.sprite.width / 2 + enemy.sprite.width / 2 + 50) {
+        atMeleeRange = true
+    } else atMeleeRange = false;
 }
 
 // si la distancia entre ambos centros es menor a la suma de sus radios, colisionan.
 function characterCollision() {
-    let heroXPosCentered = hero.x + hero.sprite.width / 2;
-    let heroYPosCentered =
-        windowDimensions.height - hero.y - hero.sprite.height / 2;
-    let enemyXPosCentered =
-        enemy.x + enemy.sprite.width + enemy.sprite.width / 2;
-    let enemyYPosCentered =
-        windowDimensions.height - enemy.y - enemy.sprite.height / 2;
-    if (
-        Math.sqrt(
-            Math.pow(enemyXPosCentered - heroXPosCentered, 2) +
-                Math.pow(enemyYPosCentered - heroYPosCentered, 2)
-        ) <=
-        hero.sprite.width / 2 + enemy.sprite.width / 2
-    ) {
+    if (charactersDistance <= hero.sprite.width / 2 + enemy.sprite.width / 2) {
+        if (!collision) {
+            attackCap = 40;
+        }
+        collision = true;
         return true;
     } else {
         collision = false;
@@ -130,12 +169,15 @@ function enemyMovement(keyPressed) {
                 }
                 return;
             case "ControlRight":
-                if (collision) {
-                    doAtack(enemy, hero);
+                if (atMeleeRange) {
+                    tryAttack(enemy, hero);
                 }
                 return;
         }
     });
+    enemy.posXCentered = enemy.x + enemy.sprite.width + enemy.sprite.width / 2;
+    enemy.posYCentered =
+        windowDimensions.height - enemy.y - enemy.sprite.height / 2;
 }
 
 function heroMovement(keyPressed) {
@@ -174,21 +216,22 @@ function heroMovement(keyPressed) {
                 }
                 return;
             case "KeyF":
-                if (collision) {
-                    doAtack(hero, enemy);
+                if (atMeleeRange) {
+                    tryAttack(hero, enemy);
                 }
                 return;
         }
     });
+    hero.posXCentered = hero.x + hero.sprite.width / 2;
+    hero.posYCentered =
+        windowDimensions.height - hero.y - hero.sprite.height / 2;
 }
-var cap = 0;
-function doAtack(characterAtk, characterDef) {
-    cap += 1;
-    if (cap >= 60) {
-        console.log("does atack");
 
+function tryAttack(characterAtk, characterDef) {
+    attackCap += 1;
+    if (attackCap >= 40) {
         characterAtk.attack(characterDef);
-        cap = 0;
+        attackCap = 0;
     }
 }
 
@@ -220,7 +263,16 @@ function setEnemyCurrentHp(hp) {
     hpDiv = document.getElementById("enemyHp").style.width = hp + "%";
 }
 
+function setSpriteBorderColor() {
+    if (atMeleeRange && !hero.justGotHit) hero.sprite.style.borderColor = DANGER_COLOR;
+    else if (!hero.justGotHit) hero.sprite.style.borderColor = SAFE_COLOR; 
+
+    if (atMeleeRange && !enemy.justGotHit) enemy.sprite.style.borderColor = DANGER_COLOR;
+    else if (!enemy.justGotHit) enemy.sprite.style.borderColor = SAFE_COLOR;
+}
+
 function updateScreen() {
+    setSpriteBorderColor();
     setHeroCurrentHp(hero.health);
     setEnemyCurrentHp(enemy.health);
     document.getElementById("currentHeroHp").innerHTML = hero.health;
@@ -274,13 +326,21 @@ const enemy = new Character(
     enemyYPos,
     10
 );
+
+//setup
 const windowDimensions = document
     .getElementById("battleground")
     .getBoundingClientRect();
 document.addEventListener("keyup", keyPressHandler);
 document.addEventListener("keydown", keyPressHandler);
 const keyPressed = new Map();
+var charactersDistance = 0;
 var collision = false;
+var atMeleeRange = false;
+var attackCap = 0;
+var swing = document.getElementById("swing");
+var currentBorderColor = SAFE_COLOR;
+
 //Comenzar combate
 updateScreen();
 combat();

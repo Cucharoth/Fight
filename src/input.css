@@ -2,16 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --safe-color: #00af1d;
+    --dmg-color: #b80000;
+    --danger-color: #dab901;
+}
+
 #heroHp{
     background-color: green;
-    width: 100%;
+    width: 0%;
     transition: width 0.5s;
     border-radius: 10px;
 }
 
 #enemyHp {
     background-color: tomato;
-    width: 100%;
+    width: 0%;
     transition: width 0.5s;
     border-radius: 10px;
 }
@@ -21,8 +27,11 @@
     width: 80px;
     height: 80px;
     border-radius: 80px;
-    left: 340px;
+    left: 450px;
     top: 30%;
+    border-style: solid;
+    border-width: 4px;
+    border-color: var(--safe-color);
 }
 
 #img-enemy{
@@ -30,9 +39,13 @@
     width: 80px;
     height: 80px;
     border-radius: 80px;
-    left: 540px;
+    left: 600px;
     top: 30%;
+    border-style: solid;
+    border-width: 4px;
+    border-color: var(--safe-color);
 }
+
 #coliseum{
     background-color: red;
     height: 100ch;
@@ -52,4 +65,13 @@
     height: 400px;
     width: 1200px;
     border-radius: 20px;
+}
+
+#swing {
+    position: relative;
+    display: none;
+    width: 60px;
+    height: 60px;
+    left: 450px;
+    top: 30%;
 }

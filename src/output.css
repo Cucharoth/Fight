@@ -611,11 +611,6 @@ video {
   margin-bottom: 1.25rem;
 }
 
-.mx-3 {
-  margin-left: 0.75rem;
-  margin-right: 0.75rem;
-}
-
 .mt-28 {
   margin-top: 7rem;
 }
@@ -682,14 +677,14 @@ video {
   padding-right: 1rem;
 }
 
-.px-9 {
-  padding-left: 2.25rem;
-  padding-right: 2.25rem;
-}
-
 .px-5 {
   padding-left: 1.25rem;
   padding-right: 1.25rem;
+}
+
+.px-9 {
+  padding-left: 2.25rem;
+  padding-right: 2.25rem;
 }
 
 .text-center {
@@ -706,16 +701,22 @@ video {
   line-height: 1.75rem;
 }
 
+:root {
+  --safe-color: #00af1d;
+  --dmg-color: #b80000;
+  --danger-color: #dab901;
+}
+
 #heroHp{
   background-color: green;
-  width: 100%;
+  width: 0%;
   transition: width 0.5s;
   border-radius: 10px;
 }
 
 #enemyHp {
   background-color: tomato;
-  width: 100%;
+  width: 0%;
   transition: width 0.5s;
   border-radius: 10px;
 }
@@ -725,8 +726,11 @@ video {
   width: 80px;
   height: 80px;
   border-radius: 80px;
-  left: 340px;
+  left: 450px;
   top: 30%;
+  border-style: solid;
+  border-width: 4px;
+  border-color: var(--safe-color);
 }
 
 #img-enemy{
@@ -734,8 +738,11 @@ video {
   width: 80px;
   height: 80px;
   border-radius: 80px;
-  left: 540px;
+  left: 600px;
   top: 30%;
+  border-style: solid;
+  border-width: 4px;
+  border-color: var(--safe-color);
 }
 
 #coliseum{
@@ -758,4 +765,13 @@ video {
   height: 400px;
   width: 1200px;
   border-radius: 20px;
+}
+
+#swing {
+  position: relative;
+  display: none;
+  width: 60px;
+  height: 60px;
+  left: 450px;
+  top: 30%;
 }
