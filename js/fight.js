@@ -58,7 +58,7 @@ class Character {
             "px";
         swing.style.top =
             windowDimensions.height -
-            enemy.posYCentered -
+            target.posYCentered -
             this.sprite.height / 3 +
             "px";
         setTimeout(() => {
@@ -75,9 +75,6 @@ function combat() {
 
     if (characterCollision()) {
         //TODO: PONER LA MAGIA AQUÍ
-        //console.log("COLLISION!!!1");
-
-        
     }
     distanceCheck();
     heroMovement(keyPressed);
@@ -87,7 +84,6 @@ function combat() {
     } else {
         window.requestAnimationFrame(combat);
     }
-    //setInterval(combat, 400);
 }
 
 // se usa un map para registrar cada tecla presionada y realizar el movimiento analizando el map
