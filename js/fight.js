@@ -152,7 +152,7 @@ const hero = new Character(
     imageHero,
     heroXPos,
     heroYPos,
-    1
+    10
 );
 const enemy = new Character(
     "Limo",

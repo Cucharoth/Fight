@@ -7,13 +7,13 @@ function enemyMovement(enemy, hero, keyPressed) {
         switch (key) {
             case "ArrowUp":
                 if (enemy.y > 0) {
-                    enemy.y -= 2;
+                    enemy.y -= enemy.speed;
                     enemy.sprite.style.top = `${enemy.y}px`;
                 }
                 return;
             case "ArrowLeft":
                 if (enemy.x > 0 - enemy.sprite.width) {
-                    enemy.x -= 2;
+                    enemy.x -= 1 * enemy.speed;
                     enemy.sprite.style.left = `${enemy.x}px`;
                 }
                 return;
@@ -23,7 +23,7 @@ function enemyMovement(enemy, hero, keyPressed) {
                     Constants.windowDimensions.height -
                         enemy.sprite.getBoundingClientRect().height
                 ) {
-                    enemy.y += 2;
+                    enemy.y += 1 * enemy.speed;
                     enemy.sprite.style.top = `${enemy.y}px`;
                 }
                 return;
@@ -34,11 +34,11 @@ function enemyMovement(enemy, hero, keyPressed) {
                         enemy.sprite.getBoundingClientRect().width -
                         enemy.sprite.width
                 ) {
-                    enemy.x += 2;
+                    enemy.x += 1 * enemy.speed;
                     enemy.sprite.style.left = `${enemy.x}px`;
                 }
                 return;
-            case "ControlRight":
+            case "KeyM":
                 if (atMeleeRange) {
                     tryAttack(enemy, hero);
                 }
@@ -55,13 +55,13 @@ function heroMovement(hero, enemy, keyPressed) {
         switch (key) {
             case "KeyW":
                 if (hero.y > 0) {
-                    hero.y -= hero.speed;
+                    hero.y -= 1 * hero.speed;
                     hero.sprite.style.top = `${hero.y}px`;
                 }
                 return;
             case "KeyA":
                 if (hero.x > 0) {
-                    hero.x -= hero.speed;
+                    hero.x -= 1 * hero.speed;
                     hero.sprite.style.left = `${hero.x}px`;
                 }
                 return;
@@ -71,7 +71,7 @@ function heroMovement(hero, enemy, keyPressed) {
                     Constants.windowDimensions.height -
                         hero.sprite.getBoundingClientRect().height
                 ) {
-                    hero.y += hero.speed;
+                    hero.y += 1 * hero.speed;
                     hero.sprite.style.top = `${hero.y}px`;
                 }
                 return;
@@ -81,7 +81,7 @@ function heroMovement(hero, enemy, keyPressed) {
                     Constants.windowDimensions.width -
                         hero.sprite.getBoundingClientRect().width
                 ) {
-                    hero.x += hero.speed;
+                    hero.x += 1 * hero.speed;
                     hero.sprite.style.left = `${hero.x}px`;
                 }
                 return;
