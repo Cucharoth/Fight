@@ -53,12 +53,12 @@
 }
 .power-up{
     position: absolute;
-    background-color: yellow;
     height: 2ch;
     width: 2ch;
 }
 
 #battleground {
+    position: relative;
     display: flex;
     flex-direction: row;
     background-color: blueviolet;
