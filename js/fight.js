@@ -1,71 +1,7 @@
-//Ejercicio de practica Javascript
-
-//Constantes:
-const SAFE_COLOR = "#00af1d";
-const DMG_COLOR = "#b80000";
-const DANGER_COLOR = "#dab901";
-
-//Objeto base para los personajes
-class Character {
-    constructor(name, health, damage, sprite, x, y, speed) {
-        //Atributos
-        this.name = name;
-        this.health = health;
-        this.maxhealth = health;
-        this.damage = damage;
-        this.sprite = sprite;
-        this.x = x;
-        this.y = y;
-        this.speed = speed;
-        this.posXCentered = 0;
-        this.posYCentered = 0;
-        this.justGotHit = false;
-    }
-    //Verifica si el personaje esta vivo
-    isAlive() {
-        return this.health > 0;
-    }
-
-    //Ataca a otro personaje seleccionado
-    attack(target) {
-        console.log(`${this.name} deals ${this.damage} DMG to ${target.name}`);
-        target.health -= this.damage;
-        this.showSwing(target);
-        target.receiveDmg();
-        if (target.health < 0) {
-            target.health = 0;
-        }
-    }
-
-    receiveDmg() {
-        this.sprite.style.borderColor = DMG_COLOR;
-        this.justGotHit = true;
-        setTimeout(() => {
-            if (atMeleeRange) {
-                this.sprite.style.borderColor = DANGER_COLOR;
-                this.justGotHit = false;
-            } else this.sprite.style.borderColor = SAFE_COLOR;;
-        }, 300);
-    }
-
-    showSwing(target) {
-        swing.style.display = "block";
-        swing.style.left =
-            target.posXCentered -
-            this.sprite.width -
-            target.sprite.width -
-            target.sprite.width / 2 +
-            "px";
-        swing.style.top =
-            windowDimensions.height -
-            target.posYCentered -
-            this.sprite.height / 3 +
-            "px";
-        setTimeout(() => {
-            swing.style.display = "none";
-        }, 300);
-    }
-}
+import Character from "../js/character.js";
+import * as Constants from "../js/constants.js";
+import { heroMovement, enemyMovement } from "./movement.js";
+export {tryAttack};
 
 //main game loop
 function combat() {
@@ -77,8 +13,8 @@ function combat() {
         //TODO: PONER LA MAGIA AQUÍ
     }
     distanceCheck();
-    heroMovement(keyPressed);
-    enemyMovement(keyPressed);
+    heroMovement(hero, enemy, keyPressed);
+    enemyMovement(enemy, hero, keyPressed);
     updateScreen();
     if (characterDeadCheck()) {
     } else {
@@ -128,105 +64,10 @@ function blockKeyDedaultMovement(e) {
     e.preventDefault();
 }
 
-function enemyMovement(keyPressed) {
-    keyPressed.forEach((value, key) => {
-        switch (key) {
-            case "ArrowUp":
-                if (enemy.y > 0) {
-                    enemy.y -= 2;
-                    enemy.sprite.style.top = `${enemy.y}px`;
-                }
-                return;
-            case "ArrowLeft":
-                if (enemy.x > 0 - enemy.sprite.width) {
-                    enemy.x -= 2;
-                    enemy.sprite.style.left = `${enemy.x}px`;
-                }
-                return;
-            case "ArrowDown":
-                if (
-                    enemy.y <
-                    windowDimensions.height -
-                        enemy.sprite.getBoundingClientRect().height
-                ) {
-                    enemy.y += 2;
-                    enemy.sprite.style.top = `${enemy.y}px`;
-                }
-                return;
-            case "ArrowRight":
-                if (
-                    enemy.x <
-                    windowDimensions.width -
-                        enemy.sprite.getBoundingClientRect().width -
-                        enemy.sprite.width
-                ) {
-                    enemy.x += 2;
-                    enemy.sprite.style.left = `${enemy.x}px`;
-                }
-                return;
-            case "ControlRight":
-                if (atMeleeRange) {
-                    tryAttack(enemy, hero);
-                }
-                return;
-        }
-    });
-    enemy.posXCentered = enemy.x + enemy.sprite.width + enemy.sprite.width / 2;
-    enemy.posYCentered =
-        windowDimensions.height - enemy.y - enemy.sprite.height / 2;
-}
-
-function heroMovement(keyPressed) {
-    keyPressed.forEach((value, key) => {
-        switch (key) {
-            case "KeyW":
-                if (hero.y > 0) {
-                    hero.y -= hero.speed;
-                    hero.sprite.style.top = `${hero.y}px`;
-                }
-                return;
-            case "KeyA":
-                if (hero.x > 0) {
-                    hero.x -= hero.speed;
-                    hero.sprite.style.left = `${hero.x}px`;
-                }
-                return;
-            case "KeyS":
-                if (
-                    hero.y <
-                    windowDimensions.height -
-                        hero.sprite.getBoundingClientRect().height
-                ) {
-                    hero.y += hero.speed;
-                    hero.sprite.style.top = `${hero.y}px`;
-                }
-                return;
-            case "KeyD":
-                if (
-                    hero.x <
-                    windowDimensions.width -
-                        hero.sprite.getBoundingClientRect().width
-                ) {
-                    hero.x += hero.speed;
-                    hero.sprite.style.left = `${hero.x}px`;
-                }
-                return;
-            case "KeyF":
-                if (atMeleeRange) {
-                    tryAttack(hero, enemy);
-                }
-                return;
-        }
-    });
-    hero.posXCentered = hero.x + hero.sprite.width / 2;
-    hero.posYCentered =
-        windowDimensions.height - hero.y - hero.sprite.height / 2;
-}
-
 function tryAttack(characterAtk, characterDef) {
     attackCap += 1;
     if (attackCap >= 40) {
-        characterAtk.attack(characterDef);
+        characterAtk.attack(characterDef, swing, atMeleeRange);
         attackCap = 0;
     }
 }
@@ -252,19 +93,19 @@ function characterDeadCheck() {
 }
 
 function setHeroCurrentHp(hp) {
-    hpDiv = document.getElementById("heroHp").style.width = hp + "%";
+    document.getElementById("heroHp").style.width = hp + "%";
 }
 
 function setEnemyCurrentHp(hp) {
-    hpDiv = document.getElementById("enemyHp").style.width = hp + "%";
+    document.getElementById("enemyHp").style.width = hp + "%";
 }
 
 function setSpriteBorderColor() {
-    if (atMeleeRange && !hero.justGotHit) hero.sprite.style.borderColor = DANGER_COLOR;
-    else if (!hero.justGotHit) hero.sprite.style.borderColor = SAFE_COLOR; 
+    if (atMeleeRange && !hero.justGotHit) hero.sprite.style.borderColor = Constants.DANGER_COLOR;
+    else if (!hero.justGotHit) hero.sprite.style.borderColor = Constants.SAFE_COLOR; 
 
-    if (atMeleeRange && !enemy.justGotHit) enemy.sprite.style.borderColor = DANGER_COLOR;
-    else if (!enemy.justGotHit) enemy.sprite.style.borderColor = SAFE_COLOR;
+    if (atMeleeRange && !enemy.justGotHit) enemy.sprite.style.borderColor = Constants.DANGER_COLOR;
+    else if (!enemy.justGotHit) enemy.sprite.style.borderColor = Constants.SAFE_COLOR;
 }
 
 function updateScreen() {
@@ -324,18 +165,14 @@ const enemy = new Character(
 );
 
 //setup
-const windowDimensions = document
-    .getElementById("battleground")
-    .getBoundingClientRect();
 document.addEventListener("keyup", keyPressHandler);
 document.addEventListener("keydown", keyPressHandler);
 const keyPressed = new Map();
 var charactersDistance = 0;
 var collision = false;
-var atMeleeRange = false;
+export var atMeleeRange = false;
 var attackCap = 0;
-var swing = document.getElementById("swing");
-var currentBorderColor = SAFE_COLOR;
+export var swing = document.getElementById("swing");
 
 //Comenzar combate
 updateScreen();
