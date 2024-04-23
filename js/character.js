@@ -9,6 +9,7 @@ export default class Character {
         this.health = health;
         this.maxhealth = health;
         this.damage = damage;
+        this.aditionalDamage = 0;
         this.sprite = sprite;
         this.x = x;
         this.y = y;
@@ -24,8 +25,8 @@ export default class Character {
 
     //Ataca a otro personaje seleccionado
     attack(target) {
-        console.log(`${this.name} deals ${this.damage} DMG to ${target.name}`);
-        target.health -= this.damage;
+        console.log(`${this.name} deals ${this.damage + this.aditionalDamage} DMG to ${target.name}`);
+        target.health -= this.damage + this.aditionalDamage;
         this.showSwing(target);
         target.receiveDmg();
         if (target.health < 0) {
