@@ -2,7 +2,8 @@ import Character from "../js/character.js";
 import * as Constants from "../js/constants.js";
 import { heroMovement, enemyMovement } from "./movement.js";
 export {tryAttack};
-
+import {addPowerUp, distanceAtPowerUp} from "./items.js";
+export { hero, enemy};
 //main game loop
 function combat() {
     // alert(`COMIENZA EL COMBATE! \n
@@ -36,6 +37,7 @@ function keyPressHandler(e) {
 // calcula la distancia entre distintos objetos
 function distanceCheck() {
     distanceBetweenCharacters();
+    distanceAtPowerUp();
 }
 
 function distanceBetweenCharacters() {
@@ -114,8 +116,8 @@ function updateScreen() {
     setEnemyCurrentHp(enemy.health);
     document.getElementById("currentHeroHp").innerHTML = hero.health;
     document.getElementById("currentEnemyHp").innerHTML = enemy.health;
-    document.getElementById("currentHeroDmg").innerHTML = hero.damage;
-    document.getElementById("currentEnemyDmg").innerHTML = enemy.damage;
+    document.getElementById("currentHeroDmg").innerHTML = hero.damage + hero.aditionalDamage;
+    document.getElementById("currentEnemyDmg").innerHTML = enemy.damage + enemy.aditionalDamage;
 }
 
 //Creación de personajes
@@ -173,6 +175,8 @@ var collision = false;
 export var atMeleeRange = false;
 var attackCap = 0;
 export var swing = document.getElementById("swing");
+
+addPowerUp();
 
 //Comenzar combate
 updateScreen();
