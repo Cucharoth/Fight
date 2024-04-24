@@ -20,5 +20,5 @@ function activateSound() {
 }
 
 var soundOn = false;
-var mainTheme = new Audio("../audio/Battle-Vampire.mp3");
+var mainTheme = new Audio("audio/Battle-Vampire.mp3");
 var soundButton = document.getElementById("sound-button");
