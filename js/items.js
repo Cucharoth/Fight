@@ -43,7 +43,10 @@ export function distanceAtPowerUp() {
                 setTimeout(() => addPowerUp(), 5000);
             }
         }
-        if (xPowerUp - range <= enemy.x && enemy.x <= xPowerUp + range) {
+        if (
+            xPowerUp - range <= enemy.x + enemy.sprite.width &&
+            enemy.x + enemy.sprite.width <= xPowerUp + range
+        ) {
             if (yPowerUp - range <= enemy.y && enemy.y <= yPowerUp + range) {
                 addDamage(enemy, 10);
                 powerUp.remove();
