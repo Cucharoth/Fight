@@ -11,7 +11,7 @@ export function addPowerUp() {
     powerUp.style.width = "50px";
 
     var firepowerimage = document.createElement("img");
-    firepowerimage.setAttribute("src", "../img/powerup/powerup-damage.png");
+    firepowerimage.setAttribute("src", "/img/powerup/powerup-damage.png");
     firepowerimage.style.width = "50px";
     firepowerimage.style.height = "50px";
 
