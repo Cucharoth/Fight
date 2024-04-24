@@ -1,5 +1,5 @@
 import * as Constans from "../js/constants.js";
-import { atMeleeRange } from "../js/fight.js";
+
 
 //Objeto base para los personajes
 export default class Character {
@@ -25,7 +25,11 @@ export default class Character {
 
     //Ataca a otro personaje seleccionado
     attack(target) {
-        console.log(`${this.name} deals ${this.damage + this.aditionalDamage} DMG to ${target.name}`);
+        console.log(
+            `${this.name} deals ${this.damage + this.aditionalDamage} DMG to ${
+                target.name
+            }`
+        );
         target.health -= this.damage + this.aditionalDamage;
         this.showSwing(target);
         target.receiveDmg();
@@ -41,7 +45,7 @@ export default class Character {
             if (atMeleeRange) {
                 this.sprite.style.borderColor = Constans.DANGER_COLOR;
                 this.justGotHit = false;
-            } else this.sprite.style.borderColor = Constans.SAFE_COLOR;;
+            } else this.sprite.style.borderColor = Constans.SAFE_COLOR;
         }, 300);
     }
 
@@ -61,5 +65,9 @@ export default class Character {
         setTimeout(() => {
             swing.style.display = "none";
         }, 300);
+    }
+
+    status() {
+        return `${this.name} - HP ${this.health}/${this.maxhealth}`;
     }
 }

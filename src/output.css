@@ -611,12 +611,16 @@ video {
   margin-bottom: 1.25rem;
 }
 
-.mt-28 {
-  margin-top: 7rem;
+.mt-20 {
+  margin-top: 5rem;
 }
 
 .mt-5 {
   margin-top: 1.25rem;
+}
+
+.mt-16 {
+  margin-top: 4rem;
 }
 
 .flex {
@@ -657,10 +661,6 @@ video {
 
 .justify-start {
   justify-content: flex-start;
-}
-
-.justify-end {
-  justify-content: flex-end;
 }
 
 .justify-center {
@@ -774,4 +774,8 @@ video {
   height: 60px;
   left: 450px;
   top: 30%;
+}
+
+#sound-button {
+  font-size: 2rem;
 }

@@ -1,5 +1,5 @@
 import * as Constants from "../js/constants.js";
-import { tryAttack, atMeleeRange } from "./fight.js";
+import { tryAttack } from "./fight.js";
 export { enemyMovement, heroMovement };
 
 function enemyMovement(enemy, hero, keyPressed) {

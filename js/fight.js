@@ -1,15 +1,12 @@
 import Character from "../js/character.js";
 import * as Constants from "../js/constants.js";
 import { heroMovement, enemyMovement } from "./movement.js";
-export {tryAttack};
-import {addPowerUp, distanceAtPowerUp} from "./items.js";
-export { hero, enemy};
+import { addPowerUp, distanceAtPowerUp } from "./items.js";
+import { activateSoundBtn, playMainTheme } from "./audioHandler.js";
+export { tryAttack };
+
 //main game loop
 function combat() {
-    // alert(`COMIENZA EL COMBATE! \n
-    // ${hero.status()}, Attack: ${hero.damage}\n
-    // ${enemy.status()}, Attack: ${enemy.damage}`);
-
     if (characterCollision()) {
         //TODO: PONER LA MAGIA AQUÍ
     }
@@ -43,9 +40,13 @@ function distanceCheck() {
 function distanceBetweenCharacters() {
     charactersDistance = Math.sqrt(
         Math.pow(enemy.posXCentered - hero.posXCentered, 2) +
-            Math.pow(enemy.posYCentered - hero.posYCentered, 2));
-    if (charactersDistance < hero.sprite.width / 2 + enemy.sprite.width / 2 + 50) {
-        atMeleeRange = true
+            Math.pow(enemy.posYCentered - hero.posYCentered, 2)
+    );
+    if (
+        charactersDistance <
+        hero.sprite.width / 2 + enemy.sprite.width / 2 + 50
+    ) {
+        atMeleeRange = true;
     } else atMeleeRange = false;
 }
 
@@ -79,7 +80,12 @@ function characterDeadCheck() {
         document.removeEventListener("keypress", keyPressHandler);
         document.getElementById("img-enemy").src = "img/defeated-slime.png";
         setTimeout(() => {
-            if (!alert("GAME OVER \nEnemy died!")) window.location.reload();
+            alert("GAME OVER \nEnemy died!");
+            console.log("after alert");
+            setInitialValues();
+            initialSetup();
+            window.requestAnimationFrame(combat);
+            //window.location.reload();
         }, 1000);
         return true;
     }
@@ -87,7 +93,9 @@ function characterDeadCheck() {
         document.removeEventListener("keypress", keyPressHandler);
         document.getElementById("img-hero").src = "img/Defeated-Knight.jpg";
         setTimeout(() => {
-            if (!alert("GAME OVER \nHero died!")) window.location.reload();
+            if (!alert("GAME OVER \nHero died!")) {
+            }
+            //window.location.reload();
         }, 1000);
         return true;
     }
@@ -103,11 +111,15 @@ function setEnemyCurrentHp(hp) {
 }
 
 function setSpriteBorderColor() {
-    if (atMeleeRange && !hero.justGotHit) hero.sprite.style.borderColor = Constants.DANGER_COLOR;
-    else if (!hero.justGotHit) hero.sprite.style.borderColor = Constants.SAFE_COLOR; 
+    if (atMeleeRange && !hero.justGotHit)
+        hero.sprite.style.borderColor = Constants.DANGER_COLOR;
+    else if (!hero.justGotHit)
+        hero.sprite.style.borderColor = Constants.SAFE_COLOR;
 
-    if (atMeleeRange && !enemy.justGotHit) enemy.sprite.style.borderColor = Constants.DANGER_COLOR;
-    else if (!enemy.justGotHit) enemy.sprite.style.borderColor = Constants.SAFE_COLOR;
+    if (atMeleeRange && !enemy.justGotHit)
+        enemy.sprite.style.borderColor = Constants.DANGER_COLOR;
+    else if (!enemy.justGotHit)
+        enemy.sprite.style.borderColor = Constants.SAFE_COLOR;
 }
 
 function updateScreen() {
@@ -116,69 +128,88 @@ function updateScreen() {
     setEnemyCurrentHp(enemy.health);
     document.getElementById("currentHeroHp").innerHTML = hero.health;
     document.getElementById("currentEnemyHp").innerHTML = enemy.health;
-    document.getElementById("currentHeroDmg").innerHTML = hero.damage + hero.aditionalDamage;
-    document.getElementById("currentEnemyDmg").innerHTML = enemy.damage + enemy.aditionalDamage;
+    document.getElementById("currentHeroDmg").innerHTML =
+        hero.damage + hero.aditionalDamage;
+    document.getElementById("currentEnemyDmg").innerHTML =
+        enemy.damage + enemy.aditionalDamage;
 }
 
-//Creación de personajes
-const heroHp = 100; //Math.floor(Math.random() * 101 + 10);
-const heroDmg = Math.floor(Math.random() * 10 + 5);
-const enemyHp = 100; //Math.floor(Math.random() * 101 + 10);
-const enemyDmg = Math.floor(Math.random() * 10 + 5);
-const imageHero = document.getElementById("img-hero");
-const imageEnemy = document.getElementById("img-enemy");
-const heroXPos =
-    window
-        .getComputedStyle(imageHero, null)
-        .getPropertyValue("left")
-        .substring(0, 3) - 0;
-const heroYPos =
-    window
-        .getComputedStyle(imageHero, null)
-        .getPropertyValue("top")
-        .substring(0, 3) - 0;
-const enemyXPos =
-    window
-        .getComputedStyle(imageEnemy, null)
-        .getPropertyValue("left")
-        .substring(0, 3) - 0;
-const enemyYPos =
-    window
-        .getComputedStyle(imageEnemy, null)
-        .getPropertyValue("top")
-        .substring(0, 3) - 0;
-const hero = new Character(
-    "Heroe",
-    heroHp,
-    heroDmg,
-    imageHero,
-    heroXPos,
-    heroYPos,
-    10
-);
-const enemy = new Character(
-    "Limo",
-    enemyHp,
-    enemyDmg,
-    imageEnemy,
-    enemyXPos,
-    enemyYPos,
-    10
-);
+function setInitialValues() {
+    globalThis.heroHp = 100; //Math.floor(Math.random() * 101 + 10);
+    const heroDmg = Math.floor(Math.random() * 10 + 5);
+    const enemyHp = 100; //Math.floor(Math.random() * 101 + 10);
+    const enemyDmg = Math.floor(Math.random() * 10 + 5);
+    const imageHero = document.getElementById("img-hero");
+    const imageEnemy = document.getElementById("img-enemy");
+    imageHero.src = "img/knight.jpg";
+    imageEnemy.src = "img/slime.jpg";
+    imageHero.style.left = "450px";
+    imageHero.style.top = "120px";
+    imageEnemy.style.left = "600px";
+    imageEnemy.style.top = "120px";
+    const heroXPos =
+        window
+            .getComputedStyle(imageHero, null)
+            .getPropertyValue("left")
+            .substring(0, 3) - 0;
+    const heroYPos =
+        window
+            .getComputedStyle(imageHero, null)
+            .getPropertyValue("top")
+            .substring(0, 3) - 0;
+    const enemyXPos =
+        window
+            .getComputedStyle(imageEnemy, null)
+            .getPropertyValue("left")
+            .substring(0, 3) - 0;
+    const enemyYPos =
+        window
+            .getComputedStyle(imageEnemy, null)
+            .getPropertyValue("top")
+            .substring(0, 3) - 0;
+    globalThis.hero = new Character(
+        "Heroe",
+        heroHp,
+        heroDmg,
+        imageHero,
+        heroXPos,
+        heroYPos,
+        5
+    );
+    globalThis.enemy = new Character(
+        "Limo",
+        enemyHp,
+        enemyDmg,
+        imageEnemy,
+        enemyXPos,
+        enemyYPos,
+        5
+    );
+}
+
+function initialSetup() {
+    document.addEventListener("keyup", keyPressHandler);
+    document.addEventListener("keydown", keyPressHandler);
+    globalThis.keyPressed = new Map();
+    globalThis.charactersDistance = 0;
+    globalThis.collision = false;
+    globalThis.atMeleeRange = false;
+    globalThis.attackCap = 0;
+    globalThis.swing = document.getElementById("swing");
+    alert(`COMIENZA EL COMBATE! \n
+    ${hero.status()}, Attack: ${hero.damage}\n
+    ${enemy.status()}, Attack: ${enemy.damage}`);
+}
 
 //setup
-document.addEventListener("keyup", keyPressHandler);
-document.addEventListener("keydown", keyPressHandler);
-const keyPressed = new Map();
-var charactersDistance = 0;
-var collision = false;
-export var atMeleeRange = false;
-var attackCap = 0;
-export var swing = document.getElementById("swing");
 
+activateSoundBtn();
+setInitialValues();
 addPowerUp();
 
 //Comenzar combate
+
+initialSetup();
 updateScreen();
 combat();
 

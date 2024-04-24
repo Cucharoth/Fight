@@ -75,3 +75,7 @@
     left: 450px;
     top: 30%;
 }
+
+#sound-button {
+    font-size: 2rem;
+}
