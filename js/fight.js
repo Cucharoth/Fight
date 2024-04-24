@@ -95,6 +95,9 @@ function characterDeadCheck() {
         setTimeout(() => {
             if (!alert("GAME OVER \nHero died!")) {
             }
+            setInitialValues();
+            initialSetup();
+            window.requestAnimationFrame(combat);
             //window.location.reload();
         }, 1000);
         return true;
