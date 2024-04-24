@@ -8,7 +8,7 @@ export { tryAttack };
 //main game loop
 function combat() {
     if (characterCollision()) {
-        //TODO: PONER LA MAGIA AQUÍ
+        //TODO: PONER LA MAGIA AQUÍ, la magia when
     }
     distanceCheck();
     heroMovement(hero, enemy, keyPressed);
@@ -28,7 +28,6 @@ function keyPressHandler(e) {
     } else {
         keyPressed.delete(e.code);
     }
-    console.log(keyPressed); //todo remove
 }
 
 // calcula la distancia entre distintos objetos
@@ -199,9 +198,9 @@ function initialSetup() {
     globalThis.atMeleeRange = false;
     globalThis.attackCap = 0;
     globalThis.swing = document.getElementById("swing");
-    alert(`COMIENZA EL COMBATE! \n
-    ${hero.status()}, Attack: ${hero.damage}\n
-    ${enemy.status()}, Attack: ${enemy.damage}`);
+    // alert(`COMIENZA EL COMBATE! \n
+    // ${hero.status()}, Attack: ${hero.damage}\n
+    // ${enemy.status()}, Attack: ${enemy.damage}`);
 }
 
 //setup

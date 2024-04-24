@@ -27,7 +27,7 @@ export function addPowerUp() {
 
     coliseum.appendChild(powerUp);
 }
-
+//TODO: cucha: creo que es mejor si le punes un if para ver si es nulo o no el power up antes de que siga, si es nulo que no haga nada
 export function distanceAtPowerUp() {
     try {
         const powerUp = document.getElementsByClassName("power-up")[0];
@@ -55,9 +55,30 @@ export function distanceAtPowerUp() {
     }
 }
 function addDamage(character, damage) {
+    activateFire(character);
     character.aditionalDamage += damage;
     console.log(character.aditionalDamage);
     setTimeout(() => {
         character.aditionalDamage -= damage;
+        deactivateFire(character);
     }, 5000);
 }
+
+function activateFire(character) {
+    if (character.name === "Heroe") {
+        heroHpContainer.style.setProperty("--hidden", "visible");
+    } else {
+        enemyHpContainer.style.setProperty("--hidden", "visible");
+    }
+}
+
+function deactivateFire(character) {
+    if (character.name === "Heroe") {
+        heroHpContainer.style.setProperty("--hidden", "hidden");
+    } else {
+        enemyHpContainer.style.setProperty("--hidden", "hidden");
+    }
+}
+
+const heroHpContainer = document.getElementById("heroHpContainer");
+const enemyHpContainer = document.getElementById("enemyHpContainer");
