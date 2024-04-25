@@ -1,21 +1,41 @@
-export function addPowerUp() {
-    var idColiseum = "battleground";
+export function addRandomPowerUp(){
+const powerUps = ["power-up-health", "power-up-damage"];
+    const randomPowerUp = powerUps[Math.floor(Math.random() * powerUps.length)];
+    addPowerUp(randomPowerUp);
+}
+function addPowerUp(classPowerUp) {
+    let idColiseum = "battleground";
     const coliseum = document.getElementById(idColiseum);
     const heightColiseum = coliseum.offsetHeight;
     const widthColiseum = coliseum.offsetWidth;
 
     const powerUp = document.createElement("div");
     powerUp.setAttribute("class", "power-up");
-    //powerUp.setAttribute("class", "power-up-damage");
+    powerUp.classList.add(classPowerUp);
     powerUp.style.height = "50px";
     powerUp.style.width = "50px";
 
-    var firepowerimage = document.createElement("img");
-    firepowerimage.setAttribute("src", "img/powerup/powerup-damage.png");
-    firepowerimage.style.width = "50px";
-    firepowerimage.style.height = "50px";
 
-    powerUp.appendChild(firepowerimage);
+    var powerUpImage = document.createElement("img");
+
+
+    switch (classPowerUp) {
+        case "power-up-health":{
+            powerUpImage.setAttribute("src", "../img/powerup/powerup-health.png");
+            break;
+        }
+        case "power-up-damage":{
+            powerUpImage.setAttribute("src", "../img/powerup/powerup-damage.png");
+            break;
+        }
+    }
+
+
+
+    powerUpImage.style.width = "50px";
+    powerUpImage.style.height = "50px";
+
+    powerUp.appendChild(powerUpImage);
 
     //get random position
 
@@ -38,9 +58,8 @@ export function distanceAtPowerUp() {
 
         if (xPowerUp - range <= hero.x && hero.x <= xPowerUp + range) {
             if (yPowerUp - range <= hero.y && hero.y <= yPowerUp + range) {
-                addDamage(hero, 10);
-                powerUp.remove();
-                setTimeout(() => addPowerUp(), 5000);
+
+                usePowerUp(hero);
             }
         }
         if (
@@ -48,23 +67,38 @@ export function distanceAtPowerUp() {
             enemy.x + enemy.sprite.width <= xPowerUp + range
         ) {
             if (yPowerUp - range <= enemy.y && enemy.y <= yPowerUp + range) {
-                addDamage(enemy, 10);
-                powerUp.remove();
-                setTimeout(() => addPowerUp(), 5000);
+
+                usePowerUp(enemy);
             }
         }
     } catch (error) {
         console.log("No power-up found");
     }
 }
-function addDamage(character, damage) {
-    activateFire(character);
-    character.aditionalDamage += damage;
-    console.log(character.aditionalDamage);
-    setTimeout(() => {
-        character.aditionalDamage -= damage;
-        deactivateFire(character);
-    }, 5000);
+
+function usePowerUp(character) {
+    const powerUpBuffDuration = 5000; // in milisegundos
+    const classPowerUp = document.getElementsByClassName("power-up")[0].classList[1];
+    switch (classPowerUp) {
+        case "power-up-health": {
+            character.health += 20;
+            break;
+        }
+        case "power-up-damage": {
+            character.aditionalDamage += 5;
+            activateFire(character);
+            //reset stats
+            setTimeout(() => {
+                character.aditionalDamage -= 5;
+                deactivateFire()
+            },powerUpBuffDuration);
+            break;
+        }
+    }
+    const powerUp = document.getElementsByClassName("power-up")[0];
+    powerUp.remove();
+    setTimeout(() => addRandomPowerUp(), 5000);
+
 }
 
 function activateFire(character) {
