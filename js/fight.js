@@ -1,7 +1,7 @@
 import Character from "../js/character.js";
 import * as Constants from "../js/constants.js";
 import { heroMovement, enemyMovement } from "./movement.js";
-import { addPowerUp, distanceAtPowerUp } from "./items.js";
+import { addRandomPowerUp, distanceAtPowerUp } from "./items.js";
 import { activateSoundBtn, playMainTheme } from "./audioHandler.js";
 export { tryAttack };
 
@@ -207,7 +207,7 @@ function initialSetup() {
 
 activateSoundBtn();
 setInitialValues();
-addPowerUp();
+addRandomPowerUp();
 
 //Comenzar combate
 
