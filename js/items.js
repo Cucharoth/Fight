@@ -21,11 +21,11 @@ function addPowerUp(classPowerUp) {
 
     switch (classPowerUp) {
         case "power-up-health":{
-            powerUpImage.setAttribute("src", "../img/powerup/powerup-health.png");
+            powerUpImage.setAttribute("src", "img/powerup/powerup-health.png");
             break;
         }
         case "power-up-damage":{
-            powerUpImage.setAttribute("src", "../img/powerup/powerup-damage.png");
+            powerUpImage.setAttribute("src", "img/powerup/powerup-damage.png");
             break;
         }
     }
@@ -90,7 +90,7 @@ function usePowerUp(character) {
             //reset stats
             setTimeout(() => {
                 character.aditionalDamage -= 5;
-                deactivateFire()
+                deactivateFire(character);
             },powerUpBuffDuration);
             break;
         }
