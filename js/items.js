@@ -47,33 +47,34 @@ function addPowerUp(classPowerUp) {
 
     coliseum.appendChild(powerUp);
 }
-//TODO: cucha: creo que es mejor si le punes un if para ver si es nulo o no el power up antes de que siga, si es nulo que no haga nada
+
 export function distanceAtPowerUp() {
-    try {
+
         const powerUp = document.getElementsByClassName("power-up")[0];
-        const xPowerUp = powerUp.offsetLeft;
-        const yPowerUp = powerUp.offsetTop;
+        if (powerUp != null) {
+            const xPowerUp = powerUp.offsetLeft;
+            const yPowerUp = powerUp.offsetTop;
 
-        const range = 50;
+            const range = 50;
 
-        if (xPowerUp - range <= hero.x && hero.x <= xPowerUp + range) {
-            if (yPowerUp - range <= hero.y && hero.y <= yPowerUp + range) {
-
-                usePowerUp(hero);
+            if (xPowerUp - range <= hero.x && hero.x <= xPowerUp + range) {
+                if (yPowerUp - range <= hero.y && hero.y <= yPowerUp + range) {
+                    usePowerUp(hero);
+                }
+            }
+            if (
+                xPowerUp - range <= enemy.x + enemy.sprite.width &&
+                enemy.x + enemy.sprite.width <= xPowerUp + range
+            ) {
+                if (
+                    yPowerUp - range <= enemy.y &&
+                    enemy.y <= yPowerUp + range
+                ) {
+                    usePowerUp(enemy);
+                }
             }
         }
-        if (
-            xPowerUp - range <= enemy.x + enemy.sprite.width &&
-            enemy.x + enemy.sprite.width <= xPowerUp + range
-        ) {
-            if (yPowerUp - range <= enemy.y && enemy.y <= yPowerUp + range) {
 
-                usePowerUp(enemy);
-            }
-        }
-    } catch (error) {
-        console.log("No power-up found");
-    }
 }
 
 function usePowerUp(character) {
