@@ -176,7 +176,7 @@ function setInitialValues() {
         imageHero,
         heroXPos,
         heroYPos,
-        5
+        8
     );
     globalThis.enemy = new Character(
         "Limo",
@@ -185,7 +185,7 @@ function setInitialValues() {
         imageEnemy,
         enemyXPos,
         enemyYPos,
-        5
+        8
     );
 }
 

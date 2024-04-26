@@ -15,7 +15,7 @@ function activateSound() {
     } else {
         playMainTheme();
         soundOn = true;
-        soundButton.innerHTML = "&#128362;";
+        soundButton.innerHTML = "&#128264;";
     }
 }
 
